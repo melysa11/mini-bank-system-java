@@ -50,3 +50,4 @@ public void withdraw(double amount) throws InvalidAmountException, InsufficientB
     reduceBalance(amount);
     addTransaction(new Transaction(TransactionType.WITHDRAW, amount, balance));
 }
+}
