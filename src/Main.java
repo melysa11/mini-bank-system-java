@@ -5,14 +5,14 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        try {
-            BankAccount account = new BankAccount("Mini Bank User", 1000);
-            BankService bankService = new BankService(account);
+        BankAccount account = new BankAccount("Mini Bank User", 1000);
+        BankService bankService = new BankService(account);
 
-            int choice = 0;
+        int choice = 0;
 
-            do {
-                System.out.println("\\n===== MINI BANK SYSTEM =====");
+        do {
+            try {
+                System.out.println("\n===== MINI BANK SYSTEM =====");
                 System.out.println("Account Holder: " + bankService.getAccountHolderName());
                 System.out.println("1. Deposit");
                 System.out.println("2. Withdraw");
@@ -46,7 +46,7 @@ public class Main {
                         if (bankService.getTransactionHistory().isEmpty()) {
                             System.out.println("No transaction history available.");
                         } else {
-                            System.out.println("\\n--- Transaction History ---");
+                            System.out.println("\n--- Transaction History ---");
                             for (int i = 0; i < bankService.getTransactionHistory().size(); i++) {
                                 System.out.println((i + 1) + ". " + bankService.getTransactionHistory().get(i));
                             }
@@ -58,23 +58,22 @@ public class Main {
                         break;
 
                     default:
-                        throw new IllegalArgumentException("Menu choice must be between 1 and 5.");
+                        System.out.println("Menu must be between 1 and 5.");
                 }
 
-            } while (choice != 5);
+            } catch (InputMismatchException e) {
+                System.out.println("Error: Input must be a number.");
+                scanner.nextLine(); // clear input buffer
+            } catch (InvalidAmountException e) {
+                System.out.println("Error: " + e.getMessage());
+            } catch (InsufficientBalanceException e) {
+                System.out.println("Error: " + e.getMessage());
+            } catch (Exception e) {
+                System.out.println("Unexpected error: " + e.getMessage());
+            }
 
-        } catch (InputMismatchException e) {
-            System.out.println("Error: Input must be a number.");
-        } catch (InvalidAmountException e) {
-            System.out.println("Error: " + e.getMessage());
-        } catch (InsufficientBalanceException e) {
-            System.out.println("Error: " + e.getMessage());
-        } catch (IllegalArgumentException e) {
-            System.out.println("Error: " + e.getMessage());
-        } catch (Exception e) {
-            System.out.println("Unexpected error: " + e.getMessage());
-        } finally {
-            scanner.close();
-        }
+        } while (choice != 5);
+
+        scanner.close();
     }
 }
