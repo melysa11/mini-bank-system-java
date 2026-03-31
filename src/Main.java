@@ -58,18 +58,14 @@ public class Main {
                         break;
 
                     default:
-                        System.out.println("Menu must be between 1 and 5.");
+                        throw new IllegalArgumentException("Menu must be 1-5");
                 }
 
             } catch (InputMismatchException e) {
-                System.out.println("Error: Input must be a number.");
-                scanner.nextLine(); // clear input buffer
-            } catch (InvalidAmountException e) {
+                System.out.println("Input must be number!");
+                scanner.nextLine();
+            } catch (InvalidAmountException | InsufficientBalanceException | IllegalArgumentException e) {
                 System.out.println("Error: " + e.getMessage());
-            } catch (InsufficientBalanceException e) {
-                System.out.println("Error: " + e.getMessage());
-            } catch (Exception e) {
-                System.out.println("Unexpected error: " + e.getMessage());
             }
 
         } while (choice != 5);
